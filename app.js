@@ -20,15 +20,29 @@
     return escapeHtml(value).replace(/([\u3400-\u9fff々〆ヶ]+)\[([^\]]+)\]/g, "<ruby>$1<rt>$2</rt></ruby>");
   }
 
+  function preferredJapaneseVoice(voices) {
+    const japaneseVoices = voices.filter(voice => voice.lang && voice.lang.toLowerCase().startsWith("ja"));
+    const maleNameHints = [
+      "keita",
+      "ichiro",
+      "otoya",
+      "takumi",
+      "male",
+      "man"
+    ];
+    return japaneseVoices.find(voice => {
+      const name = voice.name.toLowerCase();
+      return maleNameHints.some(hint => name.includes(hint));
+    }) || japaneseVoices.find(voice => voice.lang === "ja-JP") || japaneseVoices[0] || null;
+  }
+
   function speakJapanese(text) {
     const clean = stripReading(text).trim();
     if (!clean || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(clean);
     const voices = window.speechSynthesis.getVoices();
-    utterance.voice = voices.find(voice => voice.lang === "ja-JP")
-      || voices.find(voice => voice.lang && voice.lang.startsWith("ja"))
-      || null;
+    utterance.voice = preferredJapaneseVoice(voices);
     utterance.lang = "ja-JP";
     utterance.rate = 0.88;
     utterance.pitch = 1;
