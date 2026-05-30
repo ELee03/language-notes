@@ -415,6 +415,26 @@ button {
   margin: 18px 0;
 }
 
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: #fff;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.data-table th {
+  color: var(--ink);
+  font-size: 0.86rem;
+}
+
 code {
   font-family: "IBM Plex Mono", monospace;
   background: #edf1f3;

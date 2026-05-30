@@ -29,6 +29,7 @@
       item.kana,
       item.korean,
       item.english,
+      item.attach,
       item.explanation,
       item.example && item.example.japanese,
       item.example && item.example.korean,
@@ -52,6 +53,7 @@
         </div>
         <p><strong>Korean:</strong> ${item.korean}</p>
         <p><strong>English:</strong> ${item.english}</p>
+        ${item.attach ? `<p><strong>Attaches to:</strong> ${item.attach}</p>` : ""}
         <p>${item.explanation}</p>
         <div class="example">
           <div class="jp">${renderJapanese(item.example.japanese)}</div>
@@ -304,6 +306,7 @@
           <p><strong>Level/function:</strong> ${grammar.level}, ${grammar.function}</p>
           <p><strong>Korean:</strong> ${grammar.korean}</p>
           <p><strong>English:</strong> ${grammar.english}</p>
+          ${grammar.attach ? `<p><strong>Attaches to:</strong> ${grammar.attach}</p>` : ""}
           <p>${grammar.explanation}</p>
         `;
         return;

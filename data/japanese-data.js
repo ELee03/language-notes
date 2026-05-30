@@ -8,6 +8,7 @@ window.JAPANESE_DATA = {
       kana: "は",
       korean: "은/는",
       english: "topic, contrast, as for",
+      attach: "noun or noun phrase + は",
       explanation: "Marks what the sentence is about or sets up contrast. Often maps cleanly to Korean 은/는.",
       example: {
         japanese: "私[わたし]は学生[がくせい]です。",
@@ -24,6 +25,7 @@ window.JAPANESE_DATA = {
       kana: "が",
       korean: "이/가",
       english: "subject, focus, new information",
+      attach: "noun or noun phrase + が",
       explanation: "Marks the subject or the focused/new information. Especially common with existence, ability, and discovery.",
       example: {
         japanese: "猫[ねこ]がいます。",
@@ -40,6 +42,7 @@ window.JAPANESE_DATA = {
       kana: "を",
       korean: "을/를",
       english: "direct object",
+      attach: "noun or noun phrase + を",
       explanation: "Marks the thing directly acted on by the verb.",
       example: {
         japanese: "水[みず]を飲[の]みます。",
@@ -56,6 +59,7 @@ window.JAPANESE_DATA = {
       kana: "に",
       korean: "에, 에게/한테",
       english: "destination, time point, indirect object, existence location",
+      attach: "noun, time expression, destination, or recipient + に",
       explanation: "Marks where something exists, where motion lands, a time point, or a recipient.",
       example: {
         japanese: "学校[がっこう]に行[い]きます。",
@@ -72,6 +76,7 @@ window.JAPANESE_DATA = {
       kana: "で",
       korean: "에서, (으)로",
       english: "action location, means",
+      attach: "noun for place/tool/method + で",
       explanation: "Marks where an action happens or what tool/means is used.",
       example: {
         japanese: "学校[がっこう]で勉強[べんきょう]します。",
@@ -88,6 +93,7 @@ window.JAPANESE_DATA = {
       kana: "てください",
       korean: "아/어 주세요",
       english: "please do",
+      attach: "verb て-form + ください",
       explanation: "A polite request built on the て-form.",
       example: {
         japanese: "見[み]てください。",
@@ -104,6 +110,7 @@ window.JAPANESE_DATA = {
       kana: "てもいい",
       korean: "아/어도 된다",
       english: "may do, it is okay to do",
+      attach: "verb/adjective て-form + もいい",
       explanation: "Gives permission. Built from て-form + も + いい.",
       example: {
         japanese: "ここで写真[しゃしん]を撮[と]ってもいいです。",
@@ -120,6 +127,7 @@ window.JAPANESE_DATA = {
       kana: "てはいけない",
       korean: "(으)면 안 된다",
       english: "must not do",
+      attach: "verb て-form + はいけない",
       explanation: "Prohibits an action. In speech this often contracts to ちゃいけない or ちゃだめ.",
       example: {
         japanese: "ここで写真[しゃしん]を撮[と]ってはいけません。",
@@ -137,6 +145,7 @@ window.JAPANESE_DATA = {
       kana: "なければならない",
       korean: "해야 한다",
       english: "must do, have to do",
+      attach: "verb ない-form without final い + ければならない",
       explanation: "Literally close to 'if not, it will not become'; functionally obligation. Common in formal/basic learning Japanese.",
       example: {
         japanese: "宿題[しゅくだい]を出[だ]さなければなりません。",
@@ -153,6 +162,7 @@ window.JAPANESE_DATA = {
       kana: "たい",
       korean: "고 싶다",
       english: "want to do",
+      attach: "verb ます-stem + たい",
       explanation: "Attaches to the verb stem to express the speaker's desire.",
       example: {
         japanese: "日本[にほん]に行[い]きたいです。",
@@ -170,6 +180,7 @@ window.JAPANESE_DATA = {
       kana: "ことができる",
       korean: "(으)ㄹ 수 있다",
       english: "can do",
+      attach: "dictionary/plain verb phrase + ことができる",
       explanation: "Turns a verb phrase into a noun-like unit with こと, then says it is possible.",
       example: {
         japanese: "日本語[にほんご]を話[はな]すことができます。",
@@ -187,6 +198,7 @@ window.JAPANESE_DATA = {
       kana: "たことがある",
       korean: "아/어 본 적이 있다",
       english: "have done before",
+      attach: "plain past verb + ことがある",
       explanation: "Expresses previous experience of doing something.",
       example: {
         japanese: "日本[にほん]へ行[い]ったことがあります。",
@@ -204,6 +216,7 @@ window.JAPANESE_DATA = {
       kana: "とおもう",
       korean: "다고 생각하다",
       english: "I think that",
+      attach: "plain clause + と思う",
       explanation: "Quotes a thought or judgment. The と marks the content being thought.",
       example: {
         japanese: "彼[かれ]は来[く]ると思[おも]います。",
@@ -221,6 +234,7 @@ window.JAPANESE_DATA = {
       kana: "かもしれない",
       korean: "지도 모른다",
       english: "might, may",
+      attach: "plain clause + かもしれない",
       explanation: "Marks uncertainty or possibility.",
       example: {
         japanese: "明日[あした]は雨[あめ]かもしれません。",
@@ -237,6 +251,7 @@ window.JAPANESE_DATA = {
       kana: "たら",
       korean: "(으)면",
       english: "if, when",
+      attach: "plain past form + ら",
       explanation: "A flexible if/when conditional based on the past form.",
       example: {
         japanese: "雨[あめ]が降[ふ]ったら、行[い]きません。",
@@ -253,6 +268,7 @@ window.JAPANESE_DATA = {
       kana: "ば",
       korean: "(으)면",
       english: "if",
+      attach: "conditional base: godan e-row + ば, ichidan stem + れば, い-adj ければ",
       explanation: "A more logical conditional. Often used when a condition produces a result.",
       example: {
         japanese: "時間[じかん]があれば、行[い]きます。",
@@ -269,6 +285,7 @@ window.JAPANESE_DATA = {
       kana: "ように",
       korean: "도록",
       english: "so that, in order to",
+      attach: "dictionary form, potential form, or ない-form + ように",
       explanation: "Often used for goals involving states, potential forms, or avoiding something.",
       example: {
         japanese: "忘[わす]れないように、メモします。",
@@ -286,6 +303,7 @@ window.JAPANESE_DATA = {
       kana: "そうだ",
       korean: "아/어 보이다",
       english: "looks like",
+      attach: "verb ます-stem, い-adj stem, or な-adj stem + そうだ",
       explanation: "Attaches to stems to express appearance based on what you can see.",
       example: {
         japanese: "雨[あめ]が降[ふ]りそうです。",
@@ -303,6 +321,7 @@ window.JAPANESE_DATA = {
       kana: "そうだ",
       korean: "다고 한다",
       english: "I hear that",
+      attach: "plain clause + そうだ",
       explanation: "After a plain sentence, reports information heard from someone/somewhere else.",
       example: {
         japanese: "明日[あした]は休[やす]みだそうです。",
@@ -320,6 +339,7 @@ window.JAPANESE_DATA = {
       kana: "みたいだ",
       korean: "같다",
       english: "seems like, looks like",
+      attach: "noun, な-adj stem, or plain clause + みたいだ",
       explanation: "Casual appearance/comparison pattern. Very common in dialogue.",
       example: {
         japanese: "彼[かれ]は学生[がくせい]みたいです。",
@@ -336,6 +356,7 @@ window.JAPANESE_DATA = {
       kana: "のに",
       korean: "는데도",
       english: "even though",
+      attach: "plain clause + のに",
       explanation: "Marks a violated expectation: despite X, Y.",
       example: {
         japanese: "雨[あめ]が降[ふ]っているのに、出[で]かけました。",
@@ -352,6 +373,7 @@ window.JAPANESE_DATA = {
       kana: "ために",
       korean: "위해서, 때문에",
       english: "for, because of",
+      attach: "dictionary verb + ために, noun + のために",
       explanation: "Can express purpose or cause depending context.",
       example: {
         japanese: "日本語[にほんご]を勉強[べんきょう]するために、本[ほん]を買[か]いました。",
@@ -369,6 +391,7 @@ window.JAPANESE_DATA = {
       kana: "わけだ",
       korean: "셈이다, 것이다",
       english: "that means, no wonder",
+      attach: "plain clause + わけだ",
       explanation: "Explains a conclusion that follows naturally from known information.",
       example: {
         japanese: "彼[かれ]は十年[じゅうねん]日本[にほん]に住[す]んでいた。日本語[にほんご]が上手[じょうず]なわけだ。",
@@ -386,6 +409,7 @@ window.JAPANESE_DATA = {
       kana: "わけではない",
       korean: "것은 아니다",
       english: "it is not that",
+      attach: "plain clause + わけではない",
       explanation: "Softens or limits a statement by denying a total interpretation.",
       example: {
         japanese: "嫌[きら]いなわけではありません。",
@@ -403,6 +427,7 @@ window.JAPANESE_DATA = {
       kana: "はずだ",
       korean: "것이다, 분명하다",
       english: "should be, expected to",
+      attach: "plain clause + はずだ",
       explanation: "Expresses expectation based on evidence or assumptions.",
       example: {
         japanese: "彼[かれ]は来[く]るはずです。",
@@ -420,6 +445,7 @@ window.JAPANESE_DATA = {
       kana: "らしい",
       korean: "답다, 인 것 같다",
       english: "apparently, seems like, typical of",
+      attach: "noun, な-adj stem, い-adj, or plain clause + らしい",
       explanation: "Can mark hearsay-like inference or typical qualities.",
       example: {
         japanese: "彼[かれ]は学生[がくせい]らしいです。",
@@ -436,6 +462,7 @@ window.JAPANESE_DATA = {
       kana: "っぽい",
       korean: "스럽다, 같다",
       english: "-ish, tends to",
+      attach: "noun, verb ます-stem, adjective stem + っぽい",
       explanation: "A casual suffix for appearance, tendency, or quality.",
       example: {
         japanese: "この服[ふく]は子供[こども]っぽいです。",
@@ -452,6 +479,7 @@ window.JAPANESE_DATA = {
       kana: "さえ...ば",
       korean: "만 ... 하면",
       english: "if only",
+      attach: "noun/particle slot + さえ + conditional",
       explanation: "Marks a minimum necessary condition.",
       example: {
         japanese: "時間[じかん]さえあれば、できます。",
@@ -469,6 +497,7 @@ window.JAPANESE_DATA = {
       kana: "にちがいない",
       korean: "임에 틀림없다",
       english: "must be, no doubt",
+      attach: "plain clause + に違いない",
       explanation: "Strong inference or certainty.",
       example: {
         japanese: "彼[かれ]は本当[ほんとう]のことを知[し]っているに違[ちが]いありません。",
@@ -485,6 +514,7 @@ window.JAPANESE_DATA = {
       kana: "ようにする",
       korean: "도록 하다",
       english: "make sure to",
+      attach: "dictionary form or ない-form + ようにする",
       explanation: "Expresses intentional effort to make something happen regularly or reliably.",
       example: {
         japanese: "毎日[まいにち]日本語[にほんご]を聞[き]くようにしています。",
@@ -501,6 +531,7 @@ window.JAPANESE_DATA = {
       kana: "について",
       korean: "에 대해서",
       english: "about, concerning",
+      attach: "noun + について",
       explanation: "Marks the topic being discussed or considered.",
       example: {
         japanese: "日本語[にほんご]について話[はな]しましょう。",
@@ -517,6 +548,7 @@ window.JAPANESE_DATA = {
       kana: "やっぱり / やはり",
       korean: "역시",
       english: "as expected, after all",
+      attach: "adverb; usually appears near the start of the clause",
       explanation: "Common dialogue marker for expectation confirmation or returning to a prior judgment.",
       example: {
         japanese: "やっぱり彼[かれ]は来[き]ませんでした。",
