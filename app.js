@@ -379,6 +379,7 @@
     initGrammar,
     initDictionary,
     initParser,
-    speakJapanese
+    speakJapanese,
+    renderJapanese
   };
 })();
