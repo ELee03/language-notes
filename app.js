@@ -20,6 +20,30 @@
     return escapeHtml(value).replace(/([\u3400-\u9fff々〆ヶ]+)\[([^\]]+)\]/g, "<ruby>$1<rt>$2</rt></ruby>");
   }
 
+  function kanaSuffixLength(word, reading) {
+    let count = 0;
+    let wi = word.length - 1;
+    let ri = reading.length - 1;
+    while (wi >= 0 && ri >= 0 && /[\u3040-\u309fー]/.test(word[wi]) && word[wi] === reading[ri]) {
+      count += 1;
+      wi -= 1;
+      ri -= 1;
+    }
+    return count;
+  }
+
+  function renderWordWithReading(word, reading) {
+    if (!reading) return renderJapanese(word);
+    const hasKanji = /[\u3400-\u9fff々〆ヶ]/.test(word);
+    if (!hasKanji) return escapeHtml(word);
+    const suffixLength = kanaSuffixLength(word, reading);
+    const wordBase = suffixLength ? word.slice(0, -suffixLength) : word;
+    const readingBase = suffixLength ? reading.slice(0, -suffixLength) : reading;
+    const suffix = suffixLength ? word.slice(-suffixLength) : "";
+    if (!wordBase || !readingBase) return renderJapanese(`${word}[${reading}]`);
+    return renderJapanese(`${wordBase}[${readingBase}]${suffix}`);
+  }
+
   function preferredJapaneseVoice(voices) {
     const japaneseVoices = voices.filter(voice => voice.lang && voice.lang.toLowerCase().startsWith("ja"));
     const maleNameHints = [
@@ -30,10 +54,52 @@
       "male",
       "man"
     ];
-    return japaneseVoices.find(voice => {
+    const savedVoice = localStorage.getItem("languageNotesJapaneseVoice");
+    return japaneseVoices.find(voice => voice.name === savedVoice)
+      || japaneseVoices.find(voice => {
       const name = voice.name.toLowerCase();
       return maleNameHints.some(hint => name.includes(hint));
     }) || japaneseVoices.find(voice => voice.lang === "ja-JP") || japaneseVoices[0] || null;
+  }
+
+  function japaneseVoices() {
+    return window.speechSynthesis
+      ? window.speechSynthesis.getVoices().filter(voice => voice.lang && voice.lang.toLowerCase().startsWith("ja"))
+      : [];
+  }
+
+  function initVoicePicker() {
+    if (!("speechSynthesis" in window) || document.getElementById("voice-picker")) return;
+    const control = document.createElement("div");
+    control.className = "voice-picker";
+    control.innerHTML = `
+      <label for="voice-picker">Voice</label>
+      <select id="voice-picker" class="voice-select">
+        <option value="">Auto Japanese voice</option>
+      </select>
+    `;
+    document.body.appendChild(control);
+    const select = control.querySelector("select");
+
+    function populate() {
+      const current = select.value || localStorage.getItem("languageNotesJapaneseVoice") || "";
+      const voices = japaneseVoices();
+      select.innerHTML = `<option value="">Auto Japanese voice</option>`;
+      voices.forEach(voice => {
+        const option = document.createElement("option");
+        option.value = voice.name;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        select.appendChild(option);
+      });
+      select.value = voices.some(voice => voice.name === current) ? current : "";
+    }
+
+    select.addEventListener("input", () => {
+      if (select.value) localStorage.setItem("languageNotesJapaneseVoice", select.value);
+      else localStorage.removeItem("languageNotesJapaneseVoice");
+    });
+    populate();
+    window.speechSynthesis.addEventListener("voiceschanged", populate);
   }
 
   function speakJapanese(text) {
@@ -151,7 +217,7 @@
       <article class="pattern-card">
         <div class="pattern-head">
           <div class="pattern-title">
-            <span class="jp line-with-action">${renderJapanese(`${item.japanese}[${item.reading}]`)} ${speakButton(item.japanese, `Speak ${item.japanese}`)}</span>
+            <span class="jp line-with-action">${renderWordWithReading(item.japanese, item.reading)} ${speakButton(item.japanese, `Speak ${item.japanese}`)}</span>
             <span class="tag">${item.pos}</span>
           </div>
           <span class="meta">${item.reading}</span>
@@ -340,7 +406,7 @@
 
       if (dict) {
         tokenDetail.innerHTML = `
-          <h3 class="jp line-with-action">${renderJapanese(`${dict.japanese}[${dict.reading}]`)} ${speakButton(dict.japanese, `Speak ${dict.japanese}`)}</h3>
+          <h3 class="jp line-with-action">${renderWordWithReading(dict.japanese, dict.reading)} ${speakButton(dict.japanese, `Speak ${dict.japanese}`)}</h3>
           <p><strong>Korean:</strong> ${dict.korean}</p>
           <p><strong>English:</strong> ${dict.english}</p>
           <p><strong>Part:</strong> ${dict.pos}</p>
@@ -393,7 +459,9 @@
     initGrammar,
     initDictionary,
     initParser,
+    initVoicePicker,
     speakJapanese,
-    renderJapanese
+    renderJapanese,
+    renderWordWithReading
   };
 })();

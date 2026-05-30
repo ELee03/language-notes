@@ -121,6 +121,7 @@
   </main>
   <script src="../app.js"></script>
   <script>
+    LanguageNotes.initVoicePicker();
     document.querySelectorAll(".data-table td").forEach(cell => {
       cell.innerHTML = LanguageNotes.renderJapanese(cell.textContent);
     });
