@@ -20,6 +20,37 @@
     return escapeHtml(value).replace(/([\u3400-\u9fff々〆ヶ]+)\[([^\]]+)\]/g, "<ruby>$1<rt>$2</rt></ruby>");
   }
 
+  function speakJapanese(text) {
+    const clean = stripReading(text).trim();
+    if (!clean || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(clean);
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice = voices.find(voice => voice.lang === "ja-JP")
+      || voices.find(voice => voice.lang && voice.lang.startsWith("ja"))
+      || null;
+    utterance.lang = "ja-JP";
+    utterance.rate = 0.88;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function speakButton(text, label = "Speak") {
+    return `<button class="speak-button" type="button" data-speak="${escapeHtml(text)}" aria-label="${escapeHtml(label)}">▶</button>`;
+  }
+
+  function bindSpeakButtons(root = document) {
+    root.querySelectorAll("[data-speak]").forEach(button => {
+      if (button.dataset.boundSpeak) return;
+      button.dataset.boundSpeak = "true";
+      button.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        speakJapanese(button.dataset.speak);
+      });
+    });
+  }
+
   function includesAnyText(item, query) {
     if (!query) return true;
     const haystack = [
@@ -56,7 +87,7 @@
         ${item.attach ? `<p><strong>Attaches to:</strong> ${item.attach}</p>` : ""}
         <p>${item.explanation}</p>
         <div class="example">
-          <div class="jp">${renderJapanese(item.example.japanese)}</div>
+          <div class="jp line-with-action">${renderJapanese(item.example.japanese)} ${speakButton(item.example.japanese, `Speak ${stripReading(item.example.japanese)}`)}</div>
           <div class="kr">${item.example.korean}</div>
           <div class="en">${item.example.english}</div>
         </div>
@@ -93,6 +124,7 @@
       results.innerHTML = filtered.length
         ? filtered.map(renderGrammarCard).join("")
         : `<div class="empty">No grammar patterns matched that search.</div>`;
+      bindSpeakButtons(results);
     }
 
     [search, levelFilter, functionFilter].forEach(el => el.addEventListener("input", render));
@@ -105,7 +137,7 @@
       <article class="pattern-card">
         <div class="pattern-head">
           <div class="pattern-title">
-            <span class="jp">${item.japanese}</span>
+            <span class="jp line-with-action">${renderJapanese(`${item.japanese}[${item.reading}]`)} ${speakButton(item.japanese, `Speak ${item.japanese}`)}</span>
             <span class="tag">${item.pos}</span>
           </div>
           <span class="meta">${item.reading}</span>
@@ -150,6 +182,7 @@
       results.innerHTML = filtered.length
         ? filtered.map(renderDictionaryCard).join("")
         : `<div class="empty">No dictionary entries matched that search.</div>`;
+      bindSpeakButtons(results);
     }
 
     search.addEventListener("input", render);
@@ -209,6 +242,7 @@
     const input = document.getElementById("sentence-input");
     const parseButton = document.getElementById("parse-button");
     const sampleButton = document.getElementById("sample-button");
+    const speakSentenceButton = document.getElementById("speak-sentence-button");
     const tokenLine = document.getElementById("token-line");
     const tokenDetail = document.getElementById("token-detail");
     const results = document.getElementById("parse-results");
@@ -229,7 +263,7 @@
       const tokens = tokenize(sentence);
 
       tokenLine.innerHTML = tokens.length
-        ? tokens.map(token => `<button class="token" type="button" data-token="${token}">${token}</button>`).join("")
+        ? tokens.map(token => `<button class="token" type="button" data-token="${escapeHtml(token)}">${token}</button>`).join("")
         : `<span class="empty">No known tokens detected yet.</span>`;
 
       tokenLine.querySelectorAll(".token").forEach(button => {
@@ -292,38 +326,42 @@
 
       if (dict) {
         tokenDetail.innerHTML = `
-          <h3 class="jp">${renderJapanese(`${dict.japanese}[${dict.reading}]`)}</h3>
+          <h3 class="jp line-with-action">${renderJapanese(`${dict.japanese}[${dict.reading}]`)} ${speakButton(dict.japanese, `Speak ${dict.japanese}`)}</h3>
           <p><strong>Korean:</strong> ${dict.korean}</p>
           <p><strong>English:</strong> ${dict.english}</p>
           <p><strong>Part:</strong> ${dict.pos}</p>
         `;
+        bindSpeakButtons(tokenDetail);
         return;
       }
 
       if (grammar) {
         tokenDetail.innerHTML = `
-          <h3 class="jp">${renderJapanese(grammar.pattern)}</h3>
+          <h3 class="jp line-with-action">${renderJapanese(grammar.pattern)} ${speakButton(grammar.example.japanese, `Speak ${stripReading(grammar.example.japanese)}`)}</h3>
           <p><strong>Level/function:</strong> ${grammar.level}, ${grammar.function}</p>
           <p><strong>Korean:</strong> ${grammar.korean}</p>
           <p><strong>English:</strong> ${grammar.english}</p>
           ${grammar.attach ? `<p><strong>Attaches to:</strong> ${grammar.attach}</p>` : ""}
           <p>${grammar.explanation}</p>
         `;
+        bindSpeakButtons(tokenDetail);
         return;
       }
 
       if (particle) {
         tokenDetail.innerHTML = `
-          <h3 class="jp">${renderJapanese(token)}</h3>
+          <h3 class="jp line-with-action">${renderJapanese(token)} ${speakButton(token, `Speak ${token}`)}</h3>
           <p>${particle}</p>
         `;
+        bindSpeakButtons(tokenDetail);
         return;
       }
 
       tokenDetail.innerHTML = `
-        <h3 class="jp">${renderJapanese(token)}</h3>
+        <h3 class="jp line-with-action">${renderJapanese(token)} ${speakButton(token, `Speak ${token}`)}</h3>
         <p>No detailed entry yet. Add it to the grammar or dictionary data when it becomes useful.</p>
       `;
+      bindSpeakButtons(tokenDetail);
     }
 
     parseButton.addEventListener("click", parse);
@@ -333,12 +371,14 @@
       input.value = samples[sampleIndex];
       parse();
     });
+    speakSentenceButton.addEventListener("click", () => speakJapanese(input.value));
     parse();
   }
 
   window.LanguageNotes = {
     initGrammar,
     initDictionary,
-    initParser
+    initParser,
+    speakJapanese
   };
 })();
