@@ -7,6 +7,19 @@
     return String(value || "").replace(/\[[^\]]+\]/g, "");
   }
 
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function renderJapanese(value) {
+    return escapeHtml(value).replace(/([\u3400-\u9fff々〆ヶ]+)\[([^\]]+)\]/g, "<ruby>$1<rt>$2</rt></ruby>");
+  }
+
   function includesAnyText(item, query) {
     if (!query) return true;
     const haystack = [
@@ -41,7 +54,7 @@
         <p><strong>English:</strong> ${item.english}</p>
         <p>${item.explanation}</p>
         <div class="example">
-          <div class="jp">${item.example.japanese}</div>
+          <div class="jp">${renderJapanese(item.example.japanese)}</div>
           <div class="kr">${item.example.korean}</div>
           <div class="en">${item.example.english}</div>
         </div>
@@ -277,7 +290,7 @@
 
       if (dict) {
         tokenDetail.innerHTML = `
-          <h3>${dict.japanese} [${dict.reading}]</h3>
+          <h3 class="jp">${renderJapanese(`${dict.japanese}[${dict.reading}]`)}</h3>
           <p><strong>Korean:</strong> ${dict.korean}</p>
           <p><strong>English:</strong> ${dict.english}</p>
           <p><strong>Part:</strong> ${dict.pos}</p>
@@ -287,7 +300,7 @@
 
       if (grammar) {
         tokenDetail.innerHTML = `
-          <h3>${grammar.pattern}</h3>
+          <h3 class="jp">${renderJapanese(grammar.pattern)}</h3>
           <p><strong>Level/function:</strong> ${grammar.level}, ${grammar.function}</p>
           <p><strong>Korean:</strong> ${grammar.korean}</p>
           <p><strong>English:</strong> ${grammar.english}</p>
@@ -298,14 +311,14 @@
 
       if (particle) {
         tokenDetail.innerHTML = `
-          <h3>${token}</h3>
+          <h3 class="jp">${renderJapanese(token)}</h3>
           <p>${particle}</p>
         `;
         return;
       }
 
       tokenDetail.innerHTML = `
-        <h3>${token}</h3>
+        <h3 class="jp">${renderJapanese(token)}</h3>
         <p>No detailed entry yet. Add it to the grammar or dictionary data when it becomes useful.</p>
       `;
     }

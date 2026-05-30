@@ -293,6 +293,23 @@ button {
   font-weight: 600;
 }
 
+.jp ruby {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+.jp rt {
+  color: var(--muted);
+  font-size: 0.58em;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.jp rt::selection,
+.jp ruby::selection {
+  background: var(--blue-soft);
+}
+
 .kr {
   color: #304f43;
 }
