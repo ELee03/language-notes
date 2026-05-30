@@ -7,6 +7,10 @@
     return String(value || "").replace(/\[[^\]]+\]/g, "");
   }
 
+  function expandReadings(value) {
+    return String(value || "").replace(/([\u3400-\u9fff々〆ヶ]+)\[([^\]]+)\]/g, "$2");
+  }
+
   function escapeHtml(value) {
     return String(value || "")
       .replace(/&/g, "&amp;")
@@ -103,7 +107,7 @@
   }
 
   function speakJapanese(text) {
-    const clean = stripReading(text).trim();
+    const clean = expandReadings(text).trim();
     if (!clean || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(clean);
@@ -167,7 +171,7 @@
         ${item.attach ? `<p><strong>Attaches to:</strong> ${item.attach}</p>` : ""}
         <p>${item.explanation}</p>
         <div class="example">
-          <div class="jp line-with-action">${renderJapanese(item.example.japanese)} ${speakButton(item.example.japanese, `Speak ${stripReading(item.example.japanese)}`)}</div>
+          <div class="jp line-with-action">${renderJapanese(item.example.japanese)} ${speakButton(item.example.japanese, `Speak ${expandReadings(item.example.japanese)}`)}</div>
           <div class="kr">${item.example.korean}</div>
           <div class="en">${item.example.english}</div>
         </div>
@@ -217,7 +221,7 @@
       <article class="pattern-card">
         <div class="pattern-head">
           <div class="pattern-title">
-            <span class="jp line-with-action">${renderWordWithReading(item.japanese, item.reading)} ${speakButton(item.japanese, `Speak ${item.japanese}`)}</span>
+            <span class="jp line-with-action">${renderWordWithReading(item.japanese, item.reading)} ${speakButton(item.reading || item.japanese, `Speak ${item.reading || item.japanese}`)}</span>
             <span class="tag">${item.pos}</span>
           </div>
           <span class="meta">${item.reading}</span>
@@ -406,7 +410,7 @@
 
       if (dict) {
         tokenDetail.innerHTML = `
-          <h3 class="jp line-with-action">${renderWordWithReading(dict.japanese, dict.reading)} ${speakButton(dict.japanese, `Speak ${dict.japanese}`)}</h3>
+          <h3 class="jp line-with-action">${renderWordWithReading(dict.japanese, dict.reading)} ${speakButton(dict.reading || dict.japanese, `Speak ${dict.reading || dict.japanese}`)}</h3>
           <p><strong>Korean:</strong> ${dict.korean}</p>
           <p><strong>English:</strong> ${dict.english}</p>
           <p><strong>Part:</strong> ${dict.pos}</p>
@@ -417,7 +421,7 @@
 
       if (grammar) {
         tokenDetail.innerHTML = `
-          <h3 class="jp line-with-action">${renderJapanese(grammar.pattern)} ${speakButton(grammar.example.japanese, `Speak ${stripReading(grammar.example.japanese)}`)}</h3>
+          <h3 class="jp line-with-action">${renderJapanese(grammar.pattern)} ${speakButton(grammar.example.japanese, `Speak ${expandReadings(grammar.example.japanese)}`)}</h3>
           <p><strong>Level/function:</strong> ${grammar.level}, ${grammar.function}</p>
           <p><strong>Korean:</strong> ${grammar.korean}</p>
           <p><strong>English:</strong> ${grammar.english}</p>
@@ -461,6 +465,7 @@
     initParser,
     initVoicePicker,
     speakJapanese,
+    expandReadings,
     renderJapanese,
     renderWordWithReading
   };
