@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Japanese Sentence Parser | Language Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">Language Notes</a>
+      <nav class="nav">
+        <a href="index.html">Japanese</a>
+        <a href="grammar.html">Grammar</a>
+        <a href="dictionary.html">Dictionary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-wrap page-body">
+    <aside class="sidebar">
+      <div class="nav-label">Japanese</div>
+      <a class="nav-item" href="index.html">Overview</a>
+      <a class="nav-item" href="grammar.html">Grammar Search</a>
+      <a class="nav-item active" href="parser.html">Sentence Parser</a>
+      <a class="nav-item" href="dictionary.html">Dictionary</a>
+    </aside>
+
+    <section class="main">
+      <p class="eyebrow">Dialogue tool</p>
+      <h1 class="lesson-title">Sentence Parser</h1>
+      <p class="lesson-meta">A learning parser: it detects known particles and grammar patterns, then points you to explanations.</p>
+
+      <div class="split">
+        <section class="tool-card">
+          <h2>Paste a sentence</h2>
+          <textarea id="sentence-input" class="textarea">明日[あした]までに宿題[しゅくだい]を出[だ]さなければなりません。</textarea>
+          <p class="meta">Detected tokens are clickable. The parser is intentionally learning-oriented, not a perfect morphological analyzer.</p>
+          <div class="tag-row">
+            <button id="parse-button" class="button" type="button">Parse Sentence</button>
+            <button id="sample-button" class="button secondary" type="button">Try Sample</button>
+          </div>
+          <div id="token-line" class="token-line" aria-label="Detected tokens"></div>
+        </section>
+
+        <section class="tool-card">
+          <h2>Interpretation</h2>
+          <div id="token-detail" class="analysis-item">
+            <h3>Selected token</h3>
+            <p>Click a detected word, particle, or grammar pattern to inspect it.</p>
+          </div>
+          <div id="parse-results" class="analysis-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="../data/japanese-data.js"></script>
+  <script src="../app.js"></script>
+  <script>LanguageNotes.initParser();</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Japanese Dictionary | Language Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">Language Notes</a>
+      <nav class="nav">
+        <a href="index.html">Japanese</a>
+        <a href="grammar.html">Grammar</a>
+        <a href="parser.html">Parser</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-wrap page-body">
+    <aside class="sidebar">
+      <div class="nav-label">Japanese</div>
+      <a class="nav-item" href="index.html">Overview</a>
+      <a class="nav-item" href="grammar.html">Grammar Search</a>
+      <a class="nav-item" href="parser.html">Sentence Parser</a>
+      <a class="nav-item active" href="dictionary.html">Dictionary</a>
+    </aside>
+
+    <section class="main">
+      <p class="eyebrow">Curated lookup</p>
+      <h1 class="lesson-title">Dictionary</h1>
+      <p class="lesson-meta">Starter dictionary for grammar examples and early media parsing. This can later be expanded with JMdict.</p>
+
+      <div class="toolbar" role="search">
+        <input id="dict-search" class="search-input" type="search" placeholder="Search Japanese, kana, Korean, English..." autocomplete="off">
+        <select id="dict-pos" class="select" aria-label="Part of speech filter">
+          <option value="all">All parts</option>
+        </select>
+        <button id="dict-clear" class="button secondary" type="button">Clear</button>
+      </div>
+
+      <div id="dict-results" class="card-list"></div>
+    </section>
+  </main>
+
+  <script src="../data/japanese-data.js"></script>
+  <script src="../app.js"></script>
+  <script>LanguageNotes.initDictionary();</script>
+</body>
+</html>
